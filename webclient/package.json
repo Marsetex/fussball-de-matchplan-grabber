@@ -1,11 +1,11 @@
 {
-  "name": "fussball-de-matchplan-ripper",
+  "name": "fussball-de-matchplan-grabber",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-github-pages": "ng build --output-path ../docs --base-href fussball-de-matchplan-ripper",
+    "build-github-pages": "ng build --output-path ../docs --base-href fussball-de-matchplan-grabber",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
