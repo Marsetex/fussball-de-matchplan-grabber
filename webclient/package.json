@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-github-pages": "ng build --output-path docs --base-href fussball-de-matchplan-ripper",
+    "build-github-pages": "ng build --output-path ../docs --base-href fussball-de-matchplan-ripper",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
