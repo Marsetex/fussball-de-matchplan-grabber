@@ -7,15 +7,17 @@ namespace FDMatchplanGrabber.Service.Business.Services
     public class FileWriterService : IFileService
     {
         private readonly MatchDataConverter _matchDataConverter;
+        private readonly string _dateFormat;
 
-        public FileWriterService()
+        public FileWriterService(string dateFormat)
         {
             _matchDataConverter = new MatchDataConverter();
+            _dateFormat = dateFormat;
         }
 
         public async Task WriteToCsvFile(IEnumerable<FussballDeMatch> matches)
         {
-            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches);
+            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, _dateFormat);
 
             var builder = new StringBuilder();
             builder.Append(convertedMatches.HeaderElements + "\n");

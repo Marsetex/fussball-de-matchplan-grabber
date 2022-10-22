@@ -1,0 +1,23 @@
+﻿<Window x:Class="FDMatchplanGrabber.Service.DesktopApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FDMatchplanGrabber.Service.DesktopApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="320" Width="695">
+    <Grid Margin="0,0,0,3">
+        <Button Content="Button" HorizontalAlignment="Left" Margin="605,245,0,0" VerticalAlignment="Top" Width="55" Click="Button_Click_1"/>
+        <TextBox HorizontalAlignment="Left" Margin="187,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473"/>
+        <ComboBox HorizontalAlignment="Left" Margin="187,169,0,0" VerticalAlignment="Top" Width="413"/>
+        <ComboBox HorizontalAlignment="Left" Margin="187,138,0,0" VerticalAlignment="Top" Width="413"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="605,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.683,0.728" Width="55" Click="Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="187,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="413"/>
+        <Label Content="Fussball.de Matchplan Grabber" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top" Height="44" Width="326" FontSize="22" FontFamily="Segoe UI Semibold"/>
+        <Label Content="Link zu dem Spielplan" HorizontalAlignment="Left" Margin="11,74,0,0" VerticalAlignment="Top" Width="128"/>
+        <Label Content="Speicherort" HorizontalAlignment="Left" Margin="11,105,0,0" VerticalAlignment="Top" Width="128"/>
+        <Label Content="Dateiformat" HorizontalAlignment="Left" Margin="11,136,0,0" VerticalAlignment="Top" Width="128"/>
+        <Label Content="Datumsformat" HorizontalAlignment="Left" Margin="11,167,0,0" VerticalAlignment="Top" Width="128"/>
+
+    </Grid>
+</Window>
