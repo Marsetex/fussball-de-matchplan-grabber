@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FDMatchplanGrabber.Service.Business.Services;
+using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace FDMatchplanGrabber.Service.DesktopApp
 {
@@ -20,19 +12,58 @@ namespace FDMatchplanGrabber.Service.DesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly MatchplanGrabberApplicationService _applicationService;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _applicationService = new MatchplanGrabberApplicationService();
+
+            linkToMatchplanTb.MaxLines = 1;
+
+            // Config file format Combobox
+            fileFormatCb.Items.Add(".csv");
+            fileFormatCb.SelectedIndex = 0;
+
+            // Config date format Combobox
+            dateFormatCb.Items.Add("dd/MM/yyyy");
+            dateFormatCb.Items.Add("MM/dd/yyyy");
+            dateFormatCb.Items.Add("yyyy/MM/dd");
+            dateFormatCb.SelectedIndex = 0;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnClickStorageLocationBtn(object sender, RoutedEventArgs e)
         {
+            var dialog = new FolderBrowserDialog
+            {
+                AutoUpgradeEnabled = true
+            };
+            var dialogResult = dialog.ShowDialog();
 
+            if (dialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                storageLocationTb.Text = dialog.SelectedPath;
+            }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void OnClickGrabMatchplanBtn(object sender, RoutedEventArgs e)
         {
+            var url = linkToMatchplanTb.Text;
+            var storageDirectory = storageLocationTb.Text;
+            var fileName = fileNameTb.Text;
+            var fileFormat = fileFormatCb.Text;
+            var dateFormat = dateFormatCb.Text;
 
+            try
+            {
+                var exportedMatches = Task.Run(() => _applicationService.GetMatchesAndWriteToFile(url, storageDirectory, fileName, fileFormat, dateFormat)).Result;
+                System.Windows.MessageBox.Show($"{exportedMatches.Count()} matches exported to file.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("An error occured: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

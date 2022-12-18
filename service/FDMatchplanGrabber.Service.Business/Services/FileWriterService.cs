@@ -15,7 +15,7 @@ namespace FDMatchplanGrabber.Service.Business.Services
             _dateFormat = dateFormat;
         }
 
-        public async Task WriteToCsvFile(IEnumerable<FussballDeMatch> matches)
+        public async Task WriteToFile(IEnumerable<FussballDeMatch> matches, string storageDirectory, string fileName, string fileFormat)
         {
             var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, _dateFormat);
 
@@ -24,10 +24,16 @@ namespace FDMatchplanGrabber.Service.Business.Services
             foreach (var match in convertedMatches.MatchElements)
             {
                 builder.Append(match + "\n");
-                System.Console.WriteLine("Writing match: " + match);
+                Console.WriteLine("Writing match: " + match);
             }
 
-            await File.WriteAllTextAsync("C:\\Tmp\\Matches.csv", builder.ToString());
+            if (!Directory.Exists(storageDirectory))
+            {
+                Directory.CreateDirectory(storageDirectory);
+            }
+
+            var abolsutePathToFile = $"{storageDirectory}\\{fileName}{fileFormat}";
+            await File.WriteAllTextAsync(abolsutePathToFile, builder.ToString(), Encoding.Unicode);
         }
     }
 }

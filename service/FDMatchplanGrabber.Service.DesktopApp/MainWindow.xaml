@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FDMatchplanGrabber.Service.DesktopApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="320" Width="695">
-    <Grid Margin="0,0,0,3">
-        <Button Content="Button" HorizontalAlignment="Left" Margin="605,245,0,0" VerticalAlignment="Top" Width="55" Click="Button_Click_1"/>
-        <TextBox HorizontalAlignment="Left" Margin="187,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473"/>
-        <ComboBox HorizontalAlignment="Left" Margin="187,169,0,0" VerticalAlignment="Top" Width="413"/>
-        <ComboBox HorizontalAlignment="Left" Margin="187,138,0,0" VerticalAlignment="Top" Width="413"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="605,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.683,0.728" Width="55" Click="Button_Click"/>
-        <TextBox HorizontalAlignment="Left" Margin="187,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="413"/>
+        Title="Fussball.de Matchplan Grabber" Height="333" Width="695">
+    <Grid Margin="0,0,0,0">
+        <Button x:Name="grabMatchplanBtn" Content="Start" HorizontalAlignment="Left" Margin="605,251,0,0" VerticalAlignment="Top" Width="55" Click="OnClickGrabMatchplanBtn"/>
+        <TextBox x:Name="linkToMatchplanTb" HorizontalAlignment="Left" Margin="187,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473"/>
+        <ComboBox x:Name="dateFormatCb" HorizontalAlignment="Left" Margin="187,200,0,0" VerticalAlignment="Top" Width="473"/>
+        <ComboBox x:Name="fileFormatCb" HorizontalAlignment="Left" Margin="187,169,0,0" VerticalAlignment="Top" Width="473"/>
+        <Button x:Name="storageLocationBtn" Content="Öffnen" HorizontalAlignment="Left" Margin="605,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.683,0.728" Width="55" Click="OnClickStorageLocationBtn"/>
+        <TextBox x:Name="storageLocationTb" HorizontalAlignment="Left" Margin="187,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="413" IsEnabled="False" Height="20" Text="C:\Temp"/>
         <Label Content="Fussball.de Matchplan Grabber" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top" Height="44" Width="326" FontSize="22" FontFamily="Segoe UI Semibold"/>
         <Label Content="Link zu dem Spielplan" HorizontalAlignment="Left" Margin="11,74,0,0" VerticalAlignment="Top" Width="128"/>
         <Label Content="Speicherort" HorizontalAlignment="Left" Margin="11,105,0,0" VerticalAlignment="Top" Width="128"/>
-        <Label Content="Dateiformat" HorizontalAlignment="Left" Margin="11,136,0,0" VerticalAlignment="Top" Width="128"/>
-        <Label Content="Datumsformat" HorizontalAlignment="Left" Margin="11,167,0,0" VerticalAlignment="Top" Width="128"/>
-
+        <Label Content="Dateiformat" HorizontalAlignment="Left" Margin="11,167,0,0" VerticalAlignment="Top" Width="128"/>
+        <Label Content="Datumsformat" HorizontalAlignment="Left" Margin="11,198,0,0" VerticalAlignment="Top" Width="128"/>
+        <TextBox x:Name="fileNameTb" HorizontalAlignment="Left" Margin="187,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473" Height="20"/>
+        <Label Content="Dateiname" HorizontalAlignment="Left" Margin="11,136,0,0" VerticalAlignment="Top" Width="128"/>
     </Grid>
 </Window>

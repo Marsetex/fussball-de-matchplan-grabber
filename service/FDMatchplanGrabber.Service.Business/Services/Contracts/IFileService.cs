@@ -4,6 +4,6 @@ namespace FDMatchplanGrabber.Service.Business.Services.Contracts
 {
     public interface IFileService
     {
-        Task WriteToCsvFile(IEnumerable<FussballDeMatch> match);
+        Task WriteToFile(IEnumerable<FussballDeMatch> match, string storageDirectory, string fileName, string fileFormat);
     }
 }
