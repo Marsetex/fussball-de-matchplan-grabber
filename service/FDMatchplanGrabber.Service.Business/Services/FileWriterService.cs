@@ -7,25 +7,33 @@ namespace FDMatchplanGrabber.Service.Business.Services
     public class FileWriterService : IFileService
     {
         private readonly MatchDataConverter _matchDataConverter;
+        private readonly string _dateFormat;
 
-        public FileWriterService()
+        public FileWriterService(string dateFormat)
         {
             _matchDataConverter = new MatchDataConverter();
+            _dateFormat = dateFormat;
         }
 
-        public async Task WriteToCsvFile(IEnumerable<FussballDeMatch> matches)
+        public async Task WriteToFile(IEnumerable<FussballDeMatch> matches, string storageDirectory, string fileName, string fileFormat)
         {
-            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches);
+            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, _dateFormat);
 
             var builder = new StringBuilder();
             builder.Append(convertedMatches.HeaderElements + "\n");
             foreach (var match in convertedMatches.MatchElements)
             {
                 builder.Append(match + "\n");
-                System.Console.WriteLine("Writing match: " + match);
+                Console.WriteLine("Writing match: " + match);
             }
 
-            await File.WriteAllTextAsync("C:\\Tmp\\Matches.csv", builder.ToString());
+            if (!Directory.Exists(storageDirectory))
+            {
+                Directory.CreateDirectory(storageDirectory);
+            }
+
+            var abolsutePathToFile = $"{storageDirectory}\\{fileName}{fileFormat}";
+            await File.WriteAllTextAsync(abolsutePathToFile, builder.ToString(), Encoding.Unicode);
         }
     }
 }

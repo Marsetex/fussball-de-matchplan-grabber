@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using FDMatchplanGrabber.Service.Business.Services;
+﻿using FDMatchplanGrabber.Service.Business.Services;
 
 namespace FDMatchplanGrabber.Service.Console
 {
@@ -9,8 +7,9 @@ namespace FDMatchplanGrabber.Service.Console
         public async static Task Main(string[] args)
         {
             var url = "https://www.fussball.de/mannschaft/sv-ulm-sv-ulm-suedbaden/-/saison/2223/team-id/011MIAV6O4000000VTVG0001VTR8C1K7#!/";
+            var dateFormat = "dd/MM/yyyy";
             var _applicationService = new MatchplanGrabberApplicationService();
-            var _fileWriterService = new FileWriterService();
+            var _fileWriterService = new FileWriterService(dateFormat);
 
             System.Console.WriteLine("Start.");
 

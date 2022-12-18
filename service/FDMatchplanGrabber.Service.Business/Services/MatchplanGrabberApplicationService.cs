@@ -20,4 +20,15 @@ public class MatchplanGrabberApplicationService : IMatchplanGrabberApplicationSe
         var htmlDom = await _fussballDeProxy.GetMatchplanHtmlDom(urlToMatchplan).ConfigureAwait(false);
         return _parserService.ParseFussballDeMatchplanDom(htmlDom);
     }
+
+    public async Task<IEnumerable<FussballDeMatch>> GetMatchesAndWriteToFile(string urlToMatchplan, string storageDirectory, string fileName, string fileFormat, string dateFormat)
+    {
+        var _fileWriterService = new FileWriterService(dateFormat);
+
+        var matches = await GetMatches(urlToMatchplan).ConfigureAwait(false);
+        
+        await _fileWriterService.WriteToFile(matches, storageDirectory, fileName, fileFormat).ConfigureAwait(false);
+
+        return matches;
+    }
 }
