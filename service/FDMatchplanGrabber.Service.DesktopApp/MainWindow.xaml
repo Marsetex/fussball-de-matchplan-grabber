@@ -3,22 +3,49 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FDMatchplanGrabber.Service.DesktopApp"
-        mc:Ignorable="d"
-        Title="Fussball.de Matchplan Grabber" Height="333" Width="695">
-    <Grid Margin="0,0,0,0">
-        <Button x:Name="grabMatchplanBtn" Content="Start" HorizontalAlignment="Left" Margin="605,251,0,0" VerticalAlignment="Top" Width="55" Click="OnClickGrabMatchplanBtn"/>
-        <TextBox x:Name="linkToMatchplanTb" HorizontalAlignment="Left" Margin="187,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473"/>
-        <ComboBox x:Name="dateFormatCb" HorizontalAlignment="Left" Margin="187,200,0,0" VerticalAlignment="Top" Width="473"/>
-        <ComboBox x:Name="fileFormatCb" HorizontalAlignment="Left" Margin="187,169,0,0" VerticalAlignment="Top" Width="473"/>
-        <Button x:Name="storageLocationBtn" Content="Öffnen" HorizontalAlignment="Left" Margin="605,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.683,0.728" Width="55" Click="OnClickStorageLocationBtn"/>
-        <TextBox x:Name="storageLocationTb" HorizontalAlignment="Left" Margin="187,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="413" IsEnabled="False" Height="20" Text="C:\Temp"/>
-        <Label Content="Fussball.de Matchplan Grabber" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top" Height="44" Width="326" FontSize="22" FontFamily="Segoe UI Semibold"/>
-        <Label Content="Link zu dem Spielplan" HorizontalAlignment="Left" Margin="11,74,0,0" VerticalAlignment="Top" Width="128"/>
-        <Label Content="Speicherort" HorizontalAlignment="Left" Margin="11,105,0,0" VerticalAlignment="Top" Width="128"/>
-        <Label Content="Dateiformat" HorizontalAlignment="Left" Margin="11,167,0,0" VerticalAlignment="Top" Width="128"/>
-        <Label Content="Datumsformat" HorizontalAlignment="Left" Margin="11,198,0,0" VerticalAlignment="Top" Width="128"/>
-        <TextBox x:Name="fileNameTb" HorizontalAlignment="Left" Margin="187,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473" Height="20"/>
-        <Label Content="Dateiname" HorizontalAlignment="Left" Margin="11,136,0,0" VerticalAlignment="Top" Width="128"/>
+        xmlns:local="clr-namespace:FDMatchplanGrabber.Service.DesktopApp.Models"
+        Title="Fussball.de Matchplan Grabber" Height="280" Width="900">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="70" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        
+        <!-- Url to matchplan -->
+        <Label Content="Link zu dem Spielplan" Grid.Row="0" Grid.Column="0" Margin="0, 0, 10, 10"/>
+        <TextBox x:Name="urlToMatchplanTb" Text="{Binding UrlToMatchplan}" Grid.Row="0" Grid.Column="1" Margin="0, 0, 10, 10" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
+
+        <!-- Export directory -->
+        <Label Content="Speicherort" Grid.Row="1" Grid.Column="0" Margin="0, 0, 10, 10"/>
+        <TextBox x:Name="storageDirectoryTb" Text="{Binding ExportDirectory}" IsEnabled="False" Grid.Row="1" Grid.Column="1" Margin="0, 0, 10, 10" VerticalContentAlignment="Center"/>
+        <Button x:Name="storageDirectoryBtn" Content="Öffnen" Click="OnClickStorageLocationBtn" Grid.Row="1" Grid.Column="2" Margin="0, 0, 10, 10"/>
+
+        <!-- File name -->
+        <Label Content="Dateiname" Grid.Row="2" Grid.Column="0" Margin="0, 0, 10, 10"/>
+        <TextBox x:Name="fileNameTb" TextWrapping="Wrap" Text="{Binding FileName}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0, 0, 10, 10" VerticalContentAlignment="Center"/>
+
+        <!-- File format -->
+        <Label Content="Dateiformat" Grid.Row="3" Grid.Column="0" Margin="0, 0, 10, 10"/>
+        <ComboBox x:Name="fileFormatCb" DataContext="{Binding FileFormat}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0, 0, 10, 10" VerticalContentAlignment="Center"/>
+
+        <!-- Date format -->
+        <Label Content="Datumsformat" Grid.Row="4" Grid.Column="0" Margin="0, 0, 10, 10"/>
+        <ComboBox x:Name="dateFormatCb" DataContext="{Binding DateFormat}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="0, 0, 10, 10" VerticalContentAlignment="Center"/>
+
+        <!-- Action -->
+        <Button x:Name="grabMatchplanBtn" Content="Start" Click="OnClickGrabMatchplanBtn"  Grid.Row="5" Grid.Column="2"  Margin="0, 0, 10, 10"/>
     </Grid>
 </Window>

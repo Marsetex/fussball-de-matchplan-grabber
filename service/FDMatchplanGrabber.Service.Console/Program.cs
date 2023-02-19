@@ -18,7 +18,7 @@ namespace FDMatchplanGrabber.Service.Console
                 var matches = await _applicationService.GetMatches(url).ConfigureAwait(false);
                 System.Console.WriteLine($"Retrived {matches.Count()} matches from FussballDe");
 
-                await _fileWriterService.WriteToCsvFile(matches);
+                //await _fileWriterService.WriteToCsvFile(matches);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using FDMatchplanGrabber.Service.Business.Dtos;
+﻿using FDMatchplanGrabber.Service.Business.Arguments;
+using FDMatchplanGrabber.Service.Business.Dtos;
 using FDMatchplanGrabber.Service.Business.Proxies;
 using FDMatchplanGrabber.Service.Business.Services.Contracts;
 
@@ -21,13 +22,13 @@ public class MatchplanGrabberApplicationService : IMatchplanGrabberApplicationSe
         return _parserService.ParseFussballDeMatchplanDom(htmlDom);
     }
 
-    public async Task<IEnumerable<FussballDeMatch>> GetMatchesAndWriteToFile(string urlToMatchplan, string storageDirectory, string fileName, string fileFormat, string dateFormat)
+    public async Task<IEnumerable<FussballDeMatch>> GetMatchesAndWriteToFile(MatchesFileWriteArguments args)
     {
-        var _fileWriterService = new FileWriterService(dateFormat);
+        var _fileWriterService = new FileWriterService(args.DateFormat);
 
-        var matches = await GetMatches(urlToMatchplan).ConfigureAwait(false);
+        var matches = await GetMatches(args.UrlToMatchplan).ConfigureAwait(false);
         
-        await _fileWriterService.WriteToFile(matches, storageDirectory, fileName, fileFormat).ConfigureAwait(false);
+        await _fileWriterService.WriteToFile(matches, args.StorageDirectory, args.FileName, args.FileFormat).ConfigureAwait(false);
 
         return matches;
     }

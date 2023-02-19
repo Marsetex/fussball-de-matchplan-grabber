@@ -1,4 +1,6 @@
 ﻿using FDMatchplanGrabber.Service.Business.Services;
+using FDMatchplanGrabber.Service.DesktopApp.Mappers;
+using FDMatchplanGrabber.Service.DesktopApp.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ using System.Windows.Forms;
 namespace FDMatchplanGrabber.Service.DesktopApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -17,10 +19,9 @@ namespace FDMatchplanGrabber.Service.DesktopApp
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
 
             _applicationService = new MatchplanGrabberApplicationService();
-
-            linkToMatchplanTb.MaxLines = 1;
 
             // Config file format Combobox
             fileFormatCb.Items.Add(".csv");
@@ -43,27 +44,31 @@ namespace FDMatchplanGrabber.Service.DesktopApp
 
             if (dialogResult == System.Windows.Forms.DialogResult.OK)
             {
-                storageLocationTb.Text = dialog.SelectedPath;
+                var viewModel = this.DataContext as MainWindowViewModel;
+                viewModel.ExportDirectory = dialog.SelectedPath;
             }
         }
 
         private void OnClickGrabMatchplanBtn(object sender, RoutedEventArgs e)
         {
-            var url = linkToMatchplanTb.Text;
-            var storageDirectory = storageLocationTb.Text;
-            var fileName = fileNameTb.Text;
-            var fileFormat = fileFormatCb.Text;
-            var dateFormat = dateFormatCb.Text;
-
             try
             {
-                var exportedMatches = Task.Run(() => _applicationService.GetMatchesAndWriteToFile(url, storageDirectory, fileName, fileFormat, dateFormat)).Result;
-                System.Windows.MessageBox.Show($"{exportedMatches.Count()} matches exported to file.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                var viewModel = this.DataContext as MainWindowViewModel;
+                var exportedMatches = Task.Run(() => _applicationService.GetMatchesAndWriteToFile(viewModel.MapToArguments())).Result;
+
+                var messageBoxText = $"{exportedMatches.Count()} matches exported to file.";
+                ShowMessageBox("Success", messageBoxText, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("An error occured: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var messageBoxText = "An error occurred: " + ex.Message;
+                ShowMessageBox("Error", messageBoxText, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void ShowMessageBox(string caption, string messageBoxText, MessageBoxButton button, MessageBoxImage image)
+        {
+            System.Windows.MessageBox.Show(messageBoxText, caption, button, image);
         }
     }
 }
