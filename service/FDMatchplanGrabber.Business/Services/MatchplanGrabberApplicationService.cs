@@ -8,12 +8,14 @@ namespace FDMatchplanGrabber.Business.Services;
 public class MatchplanGrabberApplicationService : IMatchplanGrabberApplicationService
 {
     private readonly IFussballDeProxy _fussballDeProxy;
-    private readonly HtmlDomParserService _parserService;
+    private readonly IHtmlDomParserService _parserService;
+    private readonly IFileWriterService _fileWriterService;
 
     public MatchplanGrabberApplicationService()
     {
         _fussballDeProxy = new FussballDeProxy();
         _parserService = new HtmlDomParserService();
+        _fileWriterService = new FileWriterService();
     }
 
     public async Task<IEnumerable<FussballDeMatch>> GetMatches(string urlToMatchplan)
@@ -24,10 +26,14 @@ public class MatchplanGrabberApplicationService : IMatchplanGrabberApplicationSe
 
     public async Task<IEnumerable<FussballDeMatch>> GetMatchesAndWriteToFile(MatchesFileWriteDto fileWriteDto)
     {
-        var _fileWriterService = new FileWriterService(fileWriteDto.DateFormat);
         var matches = await GetMatches(fileWriteDto.UrlToMatchplan).ConfigureAwait(false);
         
-        await _fileWriterService.WriteToFile(matches, fileWriteDto.StorageDirectory, fileWriteDto.FileName, fileWriteDto.FileFormat).ConfigureAwait(false);
+        await _fileWriterService.WriteToFile(
+            matches,
+            fileWriteDto.StorageDirectory,
+            fileWriteDto.FileName,
+            fileWriteDto.FileFormat,
+            fileWriteDto.DateFormat).ConfigureAwait(false);
 
         return matches;
     }

@@ -4,20 +4,23 @@ using FDMatchplanGrabber.Business.Dtos;
 
 namespace FDMatchplanGrabber.Business.Services
 {
-    public class FileWriterService : IFileService
+    public class FileWriterService : IFileWriterService
     {
         private readonly MatchDataConverter _matchDataConverter;
-        private readonly string _dateFormat;
 
-        public FileWriterService(string dateFormat)
+        public FileWriterService()
         {
             _matchDataConverter = new MatchDataConverter();
-            _dateFormat = dateFormat;
         }
 
-        public async Task WriteToFile(IEnumerable<FussballDeMatch> matches, string storageDirectory, string fileName, string fileFormat)
+        public async Task WriteToFile(
+            IEnumerable<FussballDeMatch> matches,
+            string storageDirectory,
+            string fileName,
+            string fileFormat,
+            string dateFormat)
         {
-            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, _dateFormat);
+            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, dateFormat);
 
             var builder = new StringBuilder();
             builder.Append(convertedMatches.HeaderElements + "\n");

@@ -6,13 +6,13 @@ namespace FDMatchplanGrabber.Business.UnitTests.Mapper
     public class FussballDeMatchMapperTests
     {
         [Fact]
-        public void MapToMatch_WithValidData_()
+        public void MapToMatch_WithValidData_ReturnCorrectlyMappedDto()
         {
             // Arrange
-            var matchDate = "";
+            var matchDate = DateTime.Now;
             var homeTeam = "SV Ulm";
             var awayTeam = "SC Baden-Baden";
-            var matchLink = "";
+            var matchLink = "http://fussball.de";
 
             // Act
             var result = FussballDeMatchMapper.MapToMatch(matchDate, homeTeam, awayTeam, matchLink);

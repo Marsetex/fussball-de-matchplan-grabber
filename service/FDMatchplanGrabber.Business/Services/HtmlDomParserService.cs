@@ -24,7 +24,9 @@ namespace FDMatchplanGrabber.Service.Business.Services
                 var teams = matchplanColumns[i + 2].SelectNodes(".//*[@class='club-name']");
                 var matchLink = matchplanColumns[i + 2].SelectNodes(".//*[@class='column-detail']//a").First().GetAttributeValue("href", null);
 
-                matches.Add(FussballDeMatchMapper.MapToMatch(matchDateRow.InnerText, teams[0].InnerText, teams[1].InnerText, matchLink));
+                var matchDate = DateTime.ParseExact(matchDateRow.InnerText.Split(" Uhr | ")[0], "dddd, dd.MM.yyyy - HH:mm", null);
+                
+                matches.Add(FussballDeMatchMapper.MapToMatch(matchDate, teams[0].InnerText, teams[1].InnerText, matchLink));
             }
 
             return matches;

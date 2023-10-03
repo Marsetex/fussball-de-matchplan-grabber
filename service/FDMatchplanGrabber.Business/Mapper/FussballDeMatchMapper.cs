@@ -7,14 +7,15 @@ namespace FDMatchplanGrabber.Business.Mapper
     {
         /// <summary>
         ///     This regular expression removes obsolete new lines and tab characters
+        ///     TODO: Outsource the regex 
         /// </summary>
-        private static readonly Regex _pattern = new Regex("[\n\t]");
+        private static readonly Regex _pattern = new("[\n\t]");
 
-        public static FussballDeMatch MapToMatch(string matchDate, string homeTeam, string awayTeam, string matchLink)
+        public static FussballDeMatch MapToMatch(DateTime matchDate, string homeTeam, string awayTeam, string matchLink)
         {
             return new FussballDeMatch
             (
-                MatchDate: DateTime.ParseExact(matchDate.Split(" Uhr | ")[0], "dddd, dd.MM.yyyy - HH:mm", null),
+                MatchDate: matchDate, 
                 Ground: string.Empty,
                 HomeTeam: _pattern.Replace(homeTeam, string.Empty),
                 AwayTeam: _pattern.Replace(awayTeam, string.Empty),

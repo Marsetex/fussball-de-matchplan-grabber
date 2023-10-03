@@ -6,11 +6,13 @@ namespace FDMatchplanGrabber.Business.Services
 {
     public class MatchDataConverter : IMatchDataConverter
     {
+        private const string HeaderElements = "Date,Time,Ground,Home,Away";
+
         public MatchCsvFormat ConvertMatchToCsv(IEnumerable<FussballDeMatch> matches, string _dateFormat)
         {
             return new MatchCsvFormat
             (
-                HeaderElements: "Date,Time,Ground,Home,Away",
+                HeaderElements: HeaderElements,
                 MatchElements: matches
                     .Select(match => GetMatchElement(match, _dateFormat))
                     .ToArray()
