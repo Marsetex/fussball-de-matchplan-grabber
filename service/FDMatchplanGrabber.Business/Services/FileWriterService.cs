@@ -2,41 +2,40 @@ using System.Text;
 using FDMatchplanGrabber.Business.Services.Contracts;
 using FDMatchplanGrabber.Business.Dtos;
 
-namespace FDMatchplanGrabber.Business.Services
+namespace FDMatchplanGrabber.Business.Services;
+
+public class FileWriterService : IFileWriterService
 {
-    public class FileWriterService : IFileWriterService
+    private readonly MatchDataConverter _matchDataConverter;
+
+    public FileWriterService()
     {
-        private readonly MatchDataConverter _matchDataConverter;
+        _matchDataConverter = new MatchDataConverter();
+    }
 
-        public FileWriterService()
+    public async Task WriteToFile(
+        IEnumerable<FussballDeMatch> matches,
+        string storageDirectory,
+        string fileName,
+        string fileFormat,
+        string dateFormat)
+    {
+        var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, dateFormat);
+
+        var builder = new StringBuilder();
+        builder.Append(convertedMatches.HeaderElements + "\n");
+        foreach (var match in convertedMatches.MatchElements)
         {
-            _matchDataConverter = new MatchDataConverter();
+            builder.Append(match + "\n");
+            Console.WriteLine("Writing match: " + match);
         }
 
-        public async Task WriteToFile(
-            IEnumerable<FussballDeMatch> matches,
-            string storageDirectory,
-            string fileName,
-            string fileFormat,
-            string dateFormat)
+        if (!Directory.Exists(storageDirectory))
         {
-            var convertedMatches = _matchDataConverter.ConvertMatchToCsv(matches, dateFormat);
-
-            var builder = new StringBuilder();
-            builder.Append(convertedMatches.HeaderElements + "\n");
-            foreach (var match in convertedMatches.MatchElements)
-            {
-                builder.Append(match + "\n");
-                Console.WriteLine("Writing match: " + match);
-            }
-
-            if (!Directory.Exists(storageDirectory))
-            {
-                Directory.CreateDirectory(storageDirectory);
-            }
-
-            var abolsutePathToFile = $"{storageDirectory}\\{fileName}{fileFormat}";
-            await File.WriteAllTextAsync(abolsutePathToFile, builder.ToString(), Encoding.UTF8);
+            Directory.CreateDirectory(storageDirectory);
         }
+
+        var abolsutePathToFile = $"{storageDirectory}\\{fileName}{fileFormat}";
+        await File.WriteAllTextAsync(abolsutePathToFile, builder.ToString(), Encoding.UTF8);
     }
 }

@@ -1,17 +1,16 @@
-namespace FDMatchplanGrabber.Proxy.FusballDe
+namespace FDMatchplanGrabber.Proxy.FusballDe;
+
+public class FussballDeProxy : IFussballDeProxy
 {
-    public class FussballDeProxy : IFussballDeProxy
+    private readonly HttpClient _httpClient;
+
+    public FussballDeProxy()
     {
-        private readonly HttpClient _httpClient;
+        _httpClient = new HttpClient();
+    }
 
-        public FussballDeProxy()
-        {
-            _httpClient = new HttpClient();
-        }
-
-        public async Task<string> GetMatchplanHtmlDom(string urlToMatchplan)
-        {
-            return await _httpClient.GetStringAsync(urlToMatchplan).ConfigureAwait(false);
-        }
+    public async Task<string> GetMatchplanHtmlDom(string urlToMatchplan)
+    {
+        return await _httpClient.GetStringAsync(urlToMatchplan).ConfigureAwait(false);
     }
 }

@@ -1,7 +1,6 @@
-namespace FDMatchplanGrabber.Proxy.FusballDe
+namespace FDMatchplanGrabber.Proxy.FusballDe;
+
+public interface IFussballDeProxy
 {
-    public interface IFussballDeProxy
-    {
-        Task<string> GetMatchplanHtmlDom(string urlToMatchplan);
-    }
+    Task<string> GetMatchplanHtmlDom(string urlToMatchplan);
 }

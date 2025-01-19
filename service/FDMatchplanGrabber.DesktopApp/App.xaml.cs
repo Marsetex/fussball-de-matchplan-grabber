@@ -4,39 +4,38 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
 
-namespace FDMatchplanGrabber.DesktopApp
+namespace FDMatchplanGrabber.DesktopApp;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    public static IHost AppHost { get; private set; }
+
+    public App()
     {
-        public static IHost AppHost { get; private set; }
+        AppHost = Host
+            .CreateDefaultBuilder()
+            .ConfigureServices((hostContext, services) =>
+            {
+                services.AddSingleton<MainWindow>();
+                services.AddTransient<IMatchplanGrabberApplicationService, MatchplanGrabberApplicationService>();
+            })
+            .Build();
+    }
 
-        public App()
-        {
-            AppHost = Host
-                .CreateDefaultBuilder()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddSingleton<MainWindow>();
-                    services.AddTransient<IMatchplanGrabberApplicationService, MatchplanGrabberApplicationService>();
-                })
-                .Build();
-        }
+    protected override async void OnStartup(StartupEventArgs args)
+    {
+        await AppHost.StartAsync();
 
-        protected override async void OnStartup(StartupEventArgs args)
-        {
-            await AppHost.StartAsync();
+        var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
+        startupForm.Show();
 
-            var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
-            startupForm.Show();
+        base.OnStartup(args);
+    }
 
-            base.OnStartup(args);
-        }
+    protected override async void OnExit(ExitEventArgs args)
+    {
+        await AppHost.StopAsync();
 
-        protected override async void OnExit(ExitEventArgs args)
-        {
-            await AppHost.StopAsync();
-
-            base.OnExit(args);
-        }
+        base.OnExit(args);
     }
 }

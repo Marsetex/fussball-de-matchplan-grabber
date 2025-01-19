@@ -1,9 +1,8 @@
 using FDMatchplanGrabber.Business.Dtos;
 
-namespace FDMatchplanGrabber.Business.Services.Contracts
+namespace FDMatchplanGrabber.Business.Services.Contracts;
+
+public interface IHtmlDomParserService
 {
-    public interface IHtmlDomParserService
-    {
-        public IEnumerable<FussballDeMatch> ParseFussballDeMatchplanDom(string htmlDom);
-    }
+    public IEnumerable<FussballDeMatch> ParseFussballDeMatchplanDom(string htmlDom);
 }

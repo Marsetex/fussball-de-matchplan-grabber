@@ -1,8 +1,7 @@
-namespace FDMatchplanGrabber.Business.Dtos
-{
-    public record MatchCsvFormat
-    (
-        string HeaderElements,
-        string[] MatchElements
-    );
-}
+namespace FDMatchplanGrabber.Business.Dtos;
+
+public record MatchCsvFormat
+(
+    string HeaderElements,
+    string[] MatchElements
+);

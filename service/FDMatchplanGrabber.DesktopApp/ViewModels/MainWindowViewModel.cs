@@ -2,121 +2,120 @@
 using System;
 using System.Collections;
 
-namespace FDMatchplanGrabber.DesktopApp.ViewModels
+namespace FDMatchplanGrabber.DesktopApp.ViewModels;
+
+public class MainWindowViewModel : ViewModelBase, INotifyDataErrorInfo
 {
-    public class MainWindowViewModel : ViewModelBase, INotifyDataErrorInfo
+    public readonly ErrorViewModel _errorViewModel;
+
+    private string _urlToMatchplan = "https://fussball.de";
+    private string _exportDirectory = "C:\\Temp";
+    private string _fileName = "spielplan_export";
+    private string _fileFormat;
+    private string _dateFormat;
+
+    public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+    public bool CanCreate => !HasErrors;
+
+    public bool HasErrors => _errorViewModel.HasErrors;
+
+    public string UrlToMatchplan
     {
-        public readonly ErrorViewModel _errorViewModel;
-
-        private string _urlToMatchplan = "https://fussball.de";
-        private string _exportDirectory = "C:\\Temp";
-        private string _fileName = "spielplan_export";
-        private string _fileFormat;
-        private string _dateFormat;
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        public bool CanCreate => !HasErrors;
-
-        public bool HasErrors => _errorViewModel.HasErrors;
-
-        public string UrlToMatchplan
+        get
         {
-            get
+            return _urlToMatchplan;
+        }
+        set
+        {
+            _errorViewModel.ClearErrors(nameof(UrlToMatchplan));
+            _urlToMatchplan = value;
+            if (string.IsNullOrWhiteSpace(value))
             {
-                return _urlToMatchplan;
+                _errorViewModel.AddError(nameof(UrlToMatchplan), "Url is required");
             }
-            set
+            else
             {
-                _errorViewModel.ClearErrors(nameof(UrlToMatchplan));
-                _urlToMatchplan = value;
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    _errorViewModel.AddError(nameof(UrlToMatchplan), "Url is required");
-                }
-                else
-                {
-                    
-                    OnPropertyChanged(nameof(UrlToMatchplan));
-                }
+                
+                OnPropertyChanged(nameof(UrlToMatchplan));
             }
         }
+    }
 
-        public string ExportDirectory
+    public string ExportDirectory
+    {
+        get
         {
-            get
-            {
-                return _exportDirectory;
-            }
-            set
-            {
-                if (_exportDirectory != value)
-                {
-                    _exportDirectory = value;
-                    OnPropertyChanged(nameof(ExportDirectory));
-                }
-            }
+            return _exportDirectory;
         }
-
-        public string FileName
+        set
         {
-            get { return _fileName; }
-            set
+            if (_exportDirectory != value)
             {
-                _errorViewModel.ClearErrors(nameof(FileName));
-                _fileName = value;
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    _errorViewModel.AddError(nameof(FileName), "File name is required");
-                }
-                else
-                {
-                    OnPropertyChanged(nameof(FileName));
-                }
+                _exportDirectory = value;
+                OnPropertyChanged(nameof(ExportDirectory));
             }
         }
+    }
 
-        public string FileFormat
+    public string FileName
+    {
+        get { return _fileName; }
+        set
         {
-            get { return _fileFormat; }
-            set
+            _errorViewModel.ClearErrors(nameof(FileName));
+            _fileName = value;
+            if (string.IsNullOrWhiteSpace(value))
             {
-                if (_fileFormat != value)
-                {
-                    _fileFormat = value;
-                    OnPropertyChanged(nameof(FileFormat));
-                }
+                _errorViewModel.AddError(nameof(FileName), "File name is required");
+            }
+            else
+            {
+                OnPropertyChanged(nameof(FileName));
             }
         }
+    }
 
-        public string DateFormat
+    public string FileFormat
+    {
+        get { return _fileFormat; }
+        set
         {
-            get { return _dateFormat; }
-            set
+            if (_fileFormat != value)
             {
-                if (_dateFormat != value)
-                {
-                    _dateFormat = value;
-                    OnPropertyChanged(nameof(DateFormat));
-                }
+                _fileFormat = value;
+                OnPropertyChanged(nameof(FileFormat));
             }
         }
+    }
 
-        public MainWindowViewModel()
+    public string DateFormat
+    {
+        get { return _dateFormat; }
+        set
         {
-            _errorViewModel = new();
-            _errorViewModel.ErrorsChanged += ErrorsViewModel_ErrorsChanged;
+            if (_dateFormat != value)
+            {
+                _dateFormat = value;
+                OnPropertyChanged(nameof(DateFormat));
+            }
         }
+    }
 
-        public IEnumerable GetErrors(string propertyName)
-        {
-            return _errorViewModel.GetErrors(propertyName);
-        }
+    public MainWindowViewModel()
+    {
+        _errorViewModel = new();
+        _errorViewModel.ErrorsChanged += ErrorsViewModel_ErrorsChanged;
+    }
 
-        private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
-        {
-            ErrorsChanged?.Invoke(this, e);
-            OnPropertyChanged(nameof(CanCreate));
-        }
+    public IEnumerable GetErrors(string propertyName)
+    {
+        return _errorViewModel.GetErrors(propertyName);
+    }
+
+    private void ErrorsViewModel_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+    {
+        ErrorsChanged?.Invoke(this, e);
+        OnPropertyChanged(nameof(CanCreate));
     }
 }
