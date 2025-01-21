@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  PROJECT_PATH: service/FDMatchplanGrabber.DesktopApp//FDMatchplanGrabber.DesktopApp.csproj
+  PROJECT_PATH: service/FDMatchplanGrabber.DesktopApp/FDMatchplanGrabber.DesktopApp.csproj
 
 jobs:
   deploy:
@@ -38,5 +38,5 @@ jobs:
       - uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: service/FDMatchplanGrabber.DesktopApp/bin/Release/net8.0-windows/win-x64/*.exe
+          pattern: service/FDMatchplanGrabber.DesktopApp/bin/Release/net8.0-windows/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}
